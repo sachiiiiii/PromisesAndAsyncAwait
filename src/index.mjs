@@ -48,6 +48,8 @@ vault(id).then((returnedValue) => { ... });
 async function getUsersData(id) {
   // check the type and range of the id parameter. 
   // If it's not a number or is outside the valid range, rejects the Promise with an appropriate error message.
+  // I am not able to filter out NaN as an invalid input for id
+  // I tried this: previous condition || !Number.isNaN(id)
   if (typeof id !== "number") {
     return Promise.reject(new Error("Invalid Input -- Not a Number"));
   }
@@ -77,7 +79,7 @@ async function getUsersData(id) {
       company: dbData.company,
     }
   } catch (error) {
-    return Promise.rject(error);
+    return Promise.reject(error);
   }
 }
 
@@ -92,13 +94,18 @@ async function getUsersData(id) {
 async function testUserData() {
   const testIds = [1, 4, 8, 0, 10, 19, "string", false, true, null, undefined, NaN];
 
+  // I consulted Google for console.time() and console.timeEnd()
   for (const id of testIds) {
+    console.time(`Total time for data request`); // Start the timer
     try {
-      const userData = await getUserData(id);
-      console.log(`User data for id=${id}: `, userData);
+      const userData = await getUsersData(id);
+      console.log(`
+User data for id=${id}:`, userData);
     } catch (error) {
-      console.log(`Error for id ${id}: `, error.message);
+      console.log(`
+Error for id ${id}:`, error.message);
     }
+    console.timeEnd(`Total time for data request`); // Stop the timer and log the result
   }
 }
 

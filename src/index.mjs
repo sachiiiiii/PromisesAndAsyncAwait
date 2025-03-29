@@ -1,5 +1,5 @@
 // Importing database functions. DO NOT MODIFY THIS LINE.
-import { central, db1, db2, db3, vault } from "./databases.js";
+import { central, db1, db2, db3, vault } from "./databases.mjs";
 
 function getUserData(id) {
   const dbs = {
@@ -80,3 +80,26 @@ async function getUsersData(id) {
     return Promise.rject(error);
   }
 }
+
+// Test cases
+/**
+ * Psss in different values for id, including:
+ * Valid numbers – 1 through 10 (inclusive).
+ * Invalid numbers – less than 1 or higher than 10.
+ * Invalid data types – strings, Booleans, etc.
+ */
+// Iterate through several test cases and logs the results to the console.
+async function testUserData() {
+  const testIds = [1, 4, 8, 0, 10, 19, "string", false, true, null, undefined, NaN];
+
+  for (const id of testIds) {
+    try {
+      const userData = await getUserData(id);
+      console.log(`User data for id=${id}: `, userData);
+    } catch (error) {
+      console.log(`Error for id ${id}: `, error.message);
+    }
+  }
+}
+
+testUserData();

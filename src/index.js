@@ -55,5 +55,28 @@ async function getUsersData(id) {
     return Promise.reject(new Error("Invalid Input -- Out of Range"));
   }
 
-  
+  // Implement a try...catch block to catch any errors that may occur while making the database requests.
+  try {
+    const dbName = await central(id); // call central() to determine which database (db1, db2, or db3) contains the user's basic info
+    // Use Promise.all to query the appropriate database (determined by dbName) and the vault database concurrently.
+    const [dbData, vaultData] = await Promise.all([
+      // I consulted Google for the compound ternary operator
+      (dbName === "db1" ? db1(id) : dbName === "db2" ? db2(id) : db3(id)), 
+      vault(id),
+    ]);
+
+    // Once both Promises resolve, put the user's data together into the specified object format.
+    return {
+      id: id,
+      name: vaultData.name,
+      username: dbData.username,
+      email: vaultData.email,
+      address: vaultData.address,
+      phone: vaultData.phone,
+      website: dbData.website,
+      company: dbData.company,
+    }
+  } catch (error) {
+    return Promise.rject(error);
+  }
 }

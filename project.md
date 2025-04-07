@@ -1,0 +1,2 @@
+showcases some practical uses of asynchronous JavaScript techniques, including Promises and the async/await syntax. 
+[Assignment documentation](https://www.canva.com/design/DAGjEvUqqcA/R9H0UFn-tckD9G_DNEHO1w/view?utm_content=DAGjEvUqqcA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h52511cecec)
